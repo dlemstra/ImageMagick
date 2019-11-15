@@ -48,6 +48,7 @@
 #include "MagickCore/exception-private.h"
 #include "MagickCore/string-private.h"
 #include "MagickCore/utility-private.h"
+#include "MagickCore/exception-private.h"
 
 /*
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
