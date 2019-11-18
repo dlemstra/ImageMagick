@@ -18,7 +18,7 @@
 #ifndef MAGICKCORE_MEMORY_PRIVATE_H
 #define MAGICKCORE_MEMORY_PRIVATE_H
 
-#include "MagickCore/magick-config.h"
+#include "MagickCore/magick-config.h" // MAGICKCORE_SIZEOF_VOID_P, MAGICKCORE_IS_NOT_POWER_OF_2
 
 #if defined(__cplusplus) || defined(c_plusplus)
 extern "C" {
@@ -31,6 +31,17 @@ extern "C" {
 #endif
 
 #define CACHE_ALIGNED(n)  MAGICKCORE_ALIGN_UP(n,CACHE_LINE_SIZE)
+
+#define IS_BAD_CACHE_LINE_SIZE \
+  CACHE_LINE_SIZE <= 0 \
+    || (CACHE_LINE_SIZE % MAGICKCORE_SIZEOF_VOID_P) != 0 \
+      || MAGICKCORE_IS_NOT_POWER_OF_2(CACHE_LINE_SIZE/MAGICKCORE_SIZEOF_VOID_P)
+
+#if IS_BAD_CACHE_LINE_SIZE
+#  error "CACHE_LINE_SIZE must be greater than zero, and a multiple of `sizeof(void *)', and a power of 2."
+#endif
+
+#undef IS_BAD_CACHE_LINE_SIZE
 
 #if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ > 6))
 #if !defined(__ICC)
